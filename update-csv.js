@@ -4,18 +4,19 @@ const createCsvWriter = require("csv-writer").createObjectCsvWriter;
 
 // Маппинг JSON → CSV колонки
 const FIELD_MAP = {
-  weight: 'Variant Metafield: custom.verpakkingsgewicht [single_line_text_field]',
-  length: 'Variant Metafield: custom.verpakking_lengte [single_line_text_field]',
-  height: 'Variant Metafield: custom.verpakking_hoogte [single_line_text_field]',
-  width:  'Variant Metafield: custom.verpakking_breedte [single_line_text_field]',
+  // weight: 'Variant Metafield: custom.verpakkingsgewicht [single_line_text_field]',
+  // length: 'Variant Metafield: custom.verpakking_lengte [single_line_text_field]',
+  // height: 'Variant Metafield: custom.verpakking_hoogte [single_line_text_field]',
+  // width:  'Variant Metafield: custom.verpakking_breedte [single_line_text_field]',
   // waterResistance: "Variant Metafield: custom.bol_water_resistance [single_line_text_field]"
-  TypeSlaper: "Variant Metafield: custom.bol_type_slaper [single_line_text_field]",
-  MaximaleMatrasdikte: "Variant Metafield: custom.bol_maximale_matrasdikte [single_line_text_field]",
-  doelgroup: "Variant Metafield: custom.bol_doelgroep [single_line_text_field]",
-  TypeBank: "Variant Metafield: custom.bol_type_bank [single_line_text_field]",
-  AantalZitplekken: "Variant Metafield: custom.bol_aantal_zitplekken [single_line_text_field]",
-  TypeBed: "Variant Metafield: custom.bol_geschikt_voor_type_bed [single_line_text_field]",
-  verpakkingsinhound: "Variant Metafield: custom.bol_verpakkingsinhoud [single_line_text_field]",
+  // TypeSlaper: "Variant Metafield: custom.bol_type_slaper [single_line_text_field]",
+  // MaximaleMatrasdikte: "Variant Metafield: custom.bol_maximale_matrasdikte [single_line_text_field]",
+  // doelgroup: "Variant Metafield: custom.bol_doelgroep [single_line_text_field]",
+  // TypeBank: "Variant Metafield: custom.bol_type_bank [single_line_text_field]",
+  // AantalZitplekken: "Variant Metafield: custom.bol_aantal_zitplekken [single_line_text_field]",
+  // TypeBed: "Variant Metafield: custom.bol_geschikt_voor_type_bed [single_line_text_field]",
+  // verpakkingsinhound: "Variant Metafield: custom.bol_verpakkingsinhoud [single_line_text_field]",
+  Wasvoorschrift: "Variant Metafield: custom.bol_wasvoorschrift [single_line_text_field]"
 };
 
 const SKU_FIELD = "Variant SKU";
