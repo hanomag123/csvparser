@@ -1,16 +1,24 @@
-const fs = require('fs');
-const csv = require('csv-parser');
-const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+const fs = require("fs");
+const csv = require("csv-parser");
+const createCsvWriter = require("csv-writer").createObjectCsvWriter;
 
 // Маппинг JSON → CSV колонки
 const FIELD_MAP = {
   weight: 'Variant Metafield: custom.verpakkingsgewicht [single_line_text_field]',
   length: 'Variant Metafield: custom.verpakking_lengte [single_line_text_field]',
   height: 'Variant Metafield: custom.verpakking_hoogte [single_line_text_field]',
-  width:  'Variant Metafield: custom.verpakking_breedte [single_line_text_field]'
+  width:  'Variant Metafield: custom.verpakking_breedte [single_line_text_field]',
+  // waterResistance: "Variant Metafield: custom.bol_water_resistance [single_line_text_field]"
+  TypeSlaper: "Variant Metafield: custom.bol_type_slaper [single_line_text_field]",
+  MaximaleMatrasdikte: "Variant Metafield: custom.bol_maximale_matrasdikte [single_line_text_field]",
+  doelgroup: "Variant Metafield: custom.bol_doelgroep [single_line_text_field]",
+  TypeBank: "Variant Metafield: custom.bol_type_bank [single_line_text_field]",
+  AantalZitplekken: "Variant Metafield: custom.bol_aantal_zitplekken [single_line_text_field]",
+  TypeBed: "Variant Metafield: custom.bol_geschikt_voor_type_bed [single_line_text_field]",
+  verpakkingsinhound: "Variant Metafield: custom.bol_verpakkingsinhoud [single_line_text_field]",
 };
 
-const SKU_FIELD = 'Variant SKU';
+const SKU_FIELD = "Variant SKU";
 
 // Чтение CSV
 async function readCSV(filePath) {
@@ -19,27 +27,33 @@ async function readCSV(filePath) {
 
   return new Promise((resolve, reject) => {
     fs.createReadStream(filePath)
-      .pipe(csv({
-        mapHeaders: ({ header }) => header.replace(/^\uFEFF/, '').trim()
-      }))
-      .on('headers', (h) => headers = h)
-      .on('data', (data) => results.push(data))
-      .on('end', () => resolve({ rows: results, headers }))
-      .on('error', reject);
+      .pipe(
+        csv({
+          mapHeaders: ({ header }) => header.replace(/^\uFEFF/, "").trim(),
+        }),
+      )
+      .on("headers", (h) => (headers = h))
+      .on("data", (data) => results.push(data))
+      .on("end", () => resolve({ rows: results, headers }))
+      .on("error", reject);
   });
 }
 
 // Чтение JSON
 function readJSON(filePath) {
   try {
-    return JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    return JSON.parse(fs.readFileSync(filePath, "utf8"));
   } catch (e) {
-    console.error('Ошибка чтения JSON:', e);
+    console.error("Ошибка чтения JSON:", e);
     return [];
   }
 }
 
-async function updateCSVWithJSONData(csvFilePath, jsonFilePath, outputFilePath) {
+async function updateCSVWithJSONData(
+  csvFilePath,
+  jsonFilePath,
+  outputFilePath,
+) {
   try {
     const { rows: csvData, headers } = await readCSV(csvFilePath);
     const jsonData = readJSON(jsonFilePath);
@@ -52,7 +66,7 @@ async function updateCSVWithJSONData(csvFilePath, jsonFilePath, outputFilePath) 
       console.warn(`Колонка SKU "${SKU_FIELD}" не найдена!`);
     }
 
-    Object.values(FIELD_MAP).forEach(col => {
+    Object.values(FIELD_MAP).forEach((col) => {
       if (!headers.includes(col)) {
         console.warn(`Колонка "${col}" не найдена в CSV!`);
       }
@@ -60,14 +74,14 @@ async function updateCSVWithJSONData(csvFilePath, jsonFilePath, outputFilePath) 
 
     // Создаём быстрый поиск по SKU
     const skuMap = new Map();
-    jsonData.forEach(item => {
+    jsonData.forEach((item) => {
       if (item.sku) skuMap.set(String(item.sku).trim(), item);
     });
 
     let updated = 0;
     let notFound = 0;
 
-    const updatedCsv = csvData.map(row => {
+    const updatedCsv = csvData.map((row) => {
       const sku = row[SKU_FIELD]?.trim();
       if (!sku) return row;
 
@@ -80,7 +94,9 @@ async function updateCSVWithJSONData(csvFilePath, jsonFilePath, outputFilePath) 
             const oldValue = row[csvColumn];
             row[csvColumn] = jsonItem[jsonKey];
 
-            console.log(`SKU ${sku}: ${csvColumn} "${oldValue}" → "${jsonItem[jsonKey]}"`);
+            console.log(
+              `SKU ${sku}: ${csvColumn} "${oldValue}" → "${jsonItem[jsonKey]}"`,
+            );
           }
         }
 
@@ -104,17 +120,16 @@ async function updateCSVWithJSONData(csvFilePath, jsonFilePath, outputFilePath) 
     // Запись CSV
     const csvWriter = createCsvWriter({
       path: outputFilePath,
-      header: headers.map(h => ({ id: h, title: h })),
-      alwaysQuote: true
+      header: headers.map((h) => ({ id: h, title: h })),
+      alwaysQuote: true,
     });
 
     await csvWriter.writeRecords(updatedCsv);
     console.log(`\nГотово! Файл сохранён: ${outputFilePath}`);
-
   } catch (err) {
-    console.error('Ошибка:', err);
+    console.error("Ошибка:", err);
   }
 }
 
 // Запуск
-updateCSVWithJSONData('input.csv', 'data.json', 'output.csv');
+updateCSVWithJSONData("input.csv", "data.json", "output.csv");
