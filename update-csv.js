@@ -14,9 +14,21 @@ const FIELD_MAP = {
   // doelgroup: "Variant Metafield: custom.bol_doelgroep [single_line_text_field]",
   // TypeBank: "Variant Metafield: custom.bol_type_bank [single_line_text_field]",
   // AantalZitplekken: "Variant Metafield: custom.bol_aantal_zitplekken [single_line_text_field]",
-  // TypeBed: "Variant Metafield: custom.bol_geschikt_voor_type_bed [single_line_text_field]",
+  // TypeBed:
+  //   "Variant Metafield: custom.bol_geschikt_voor_type_bed [single_line_text_field]",
   // verpakkingsinhound: "Variant Metafield: custom.bol_verpakkingsinhoud [single_line_text_field]",
-  Wasvoorschrift: "Variant Metafield: custom.bol_wasvoorschrift [single_line_text_field]"
+  // Wasvoorschrift: "Variant Metafield: custom.bol_wasvoorschrift [single_line_text_field]",
+  // Woonthema: "Variant Metafield: custom.bol_woonthema [single_line_text_field]",
+  // "Ligcomfort Matras": "Variant Metafield: custom.bol_ligcomfort_matras [single_line_text_field]",
+  // "Max. Belastbaar Gewicht": "Variant Metafield: custom.bol_max_belastbaar_gewicht [single_line_text_field]",
+  // "Type Matraskern": "Variant Metafield: custom.bol_type_matraskern [single_line_text_field]",
+  // "Material Buitenkant": "Variant Metafield: custom.bol_material_buitenkant [single_line_text_field]",
+  // Materiaal: "Variant Metafield: custom.bol_material [single_line_text_field]",
+  // Kleur: "Variant Metafield: custom.bol_color [single_line_text_field]",
+  // "Maatvoering": "Variant Metafield: custom.bol_maatvoering [single_line_text_field]",
+"h": "Variant Metafield: custom.hohe_ [single_line_text_field]",
+"l": "Variant Metafield: custom.lange_ [single_line_text_field]",
+"productWidth": "Variant Metafield: custom.breite_ [single_line_text_field]",
 };
 
 const SKU_FIELD = "Variant SKU";
