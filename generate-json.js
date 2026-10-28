@@ -7,10 +7,10 @@ const outputFile = "data.json"; // куда сохранить JSON
 let results = [];
 
 fs.createReadStream(inputFile)
-  .pipe(csv({ separator: ";" })) // если разделитель ; — поменяй здесь
+  .pipe(csv({ separator: "," })) // если разделитель ; — поменяй здесь
   .on("data", (row) => {
     results.push({
-      sku: row["Artikelnummer"],
+      sku: row["SKU"],
       // weight: row["Carton weight"],
       // length: row["Carton lenght"],
       // height: row["Carton height"],
@@ -23,7 +23,7 @@ fs.createReadStream(inputFile)
       // MaximaleMatrasdikte: row["Maximale Matrasdikte"],
       // doelgroup: row["doelgroup"],
       // TypeBank: row["Type Bank"],
-      "Type Plaid": row["Type Plaid "],
+      // "Type Plaid": row["Type Plaid "],
       // AantalZitplekken: row["Aantal Zitplekken"],
       // TypeBed: row["Geschick Voor Type Bed "],
       // verpakkingsinhound: row["Verpakkingsinhound"],
@@ -35,8 +35,13 @@ fs.createReadStream(inputFile)
       // "Material Buitenkant": row["Material Buitenkant"],
       // Materiaal: row["Materiaal"],
       // Kleur: row["Kleur"],
-      // "Materiaal Vulling": row["Material Vulling"]
+      // "Materiaal Vulling": row["Material Vulling"],
       // Maatvoering: row["Maatvoering"]
+      // TARIC: row['TARIC'],
+      // Supplier: row['Supplier'],
+      // Verkaufspreis: row['Verkaufspreis'],
+      "Preis Galaxus no VAT": row["CHF final net"],
+      UVP: row["CHF final"],
     });
   })
   .on("end", () => {
@@ -122,6 +127,32 @@ fs.createReadStream(inputFile)
     // });
 
     // results = results.map((el) => {
+    //   switch (el["Materiaal Vulling"].trim()) {
+    //     case "6cm dick - ?ber 120 kg":
+    //       return {
+    //         ...el,
+    //         ["Materiaal Vulling"]: "6cm dick - über 120 kg",
+    //       };
+    //     case "100% Baumwolle (H?lle)":
+    //     case "100% Baumwolle (H?lle) Hypoallergene Glasperlen (F?llung)":
+    //     case "100% Baumwolle (H?lle), hypoallergene Glasperlen (F?llung)":
+    //       return {
+    //         ...el,
+    //         ["Materiaal Vulling"]: "100% Baumwolle",
+    //       };
+
+    //     case "100% Polyester (H?lle), hypoallergene Glasperlen (F?llung)":
+    //       return {
+    //         ...el,
+    //         ["Materiaal Vulling"]: "100% Polyester",
+    //       };
+
+    //     default:
+    //       return el;
+    //   }
+    // });
+
+    // results = results.map((el) => {
     //   switch (el.Wasvoorschrift.trim()) {
     //     case "Bei 30 Grad waschbar":
     //     case "Waschbar bei 30 Grad im Schonwaschgang":
@@ -176,6 +207,19 @@ fs.createReadStream(inputFile)
     //   });
     //   return newObj;
     // });
+
+    results = results.map((obj) => {
+      const newObj = {};
+      Object.entries(obj).forEach(([key, value]) => {
+        // Check if value is a string and contains 'cm'
+        if (value.includes("€")) {
+          newObj[key] = value.replace(/€/g, "").trim();
+        } else {
+          newObj[key] = value;
+        }
+      });
+      return newObj;
+    });
 
     results = results.map((obj) => {
       return Object.fromEntries(

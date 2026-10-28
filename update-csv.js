@@ -26,9 +26,15 @@ const FIELD_MAP = {
   // Materiaal: "Variant Metafield: custom.bol_material [single_line_text_field]",
   // Kleur: "Variant Metafield: custom.bol_color [single_line_text_field]",
   // "Maatvoering": "Variant Metafield: custom.bol_maatvoering [single_line_text_field]",
-"h": "Variant Metafield: custom.hohe_ [single_line_text_field]",
-"l": "Variant Metafield: custom.lange_ [single_line_text_field]",
-"productWidth": "Variant Metafield: custom.breite_ [single_line_text_field]",
+// "h": "Variant Metafield: custom.hohe_ [single_line_text_field]",
+// "l": "Variant Metafield: custom.lange_ [single_line_text_field]",
+// "productWidth": "Variant Metafield: custom.breite_ [single_line_text_field]",
+  // "Materiaal Vulling": "Variant Metafield: custom.bol_materiaal_vulling [single_line_text_field]"
+  // "TARIC": "Variant Metafield: custom.galaxus_taric [single_line_text_field]",
+  // "Supplier": "Variant Metafield: custom.galaxus_supplier [single_line_text_field]",
+  // "Verkaufspreis": "Variant Metafield: custom.galaxus_price [single_line_text_field]",
+  "Preis Galaxus no VAT": "Variant Metafield: custom.galaxus_pricenovat [single_line_text_field]",
+  "UVP": "Variant Metafield: custom.galaxus_uvp [single_line_text_field]"
 };
 
 const SKU_FIELD = "Variant SKU";
